@@ -16,8 +16,10 @@ public class Characters {
     private String id;
     private String name;
     private String surname;
+    private String alias;
     private String age;
     private String sex; 
     private String[] comics;
     private String data;
+    private String image;
 }
