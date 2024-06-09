@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -28,17 +29,17 @@ public class CharacterController {
     }
 
     @PostMapping("/addCharacters")
-    public ResponseEntity<Mono<Characters>> addCharacters(@RequestBody Characters characters){
+    public ResponseEntity<Mono<Characters>> addCharacters(@Valid @RequestBody Characters characters){
         Mono<Characters> charMono= this.chsimpl.addChatacters(characters);
         return new ResponseEntity<>(charMono, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateCharacters")
-    public ResponseEntity<Mono<Characters>> updateCharacters(@RequestBody Characters characters){
+    public ResponseEntity<Mono<Characters>> updateCharacters(@Valid @RequestBody Characters characters){
         Mono<Characters> charMono= this.chsimpl.updateChatacters(characters);
         return new ResponseEntity<>(charMono, HttpStatus.OK);
     }
-
+    
     @GetMapping("/findCharacters/{id}")
     public ResponseEntity<Mono<Characters>> findCharacters(@PathVariable String id){
         Mono<Characters> charMono= this.chsimpl.findChatacters(id);
