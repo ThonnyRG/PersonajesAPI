@@ -4,25 +4,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
+import javax.management.MXBean;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import dev.tony.characters.RestApi.Characters;
+import dev.tony.characters.RestApi.CharactersServiceIMPL;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-
+@Test
 public class CharacterControllerTest {
 
     @Autowired
-    private WebTestClient webTestClient;
+    private WebClient webTestClient;
 
-    @MockBean
+    @MXBean
     private CharactersServiceIMPL charactersServiceIMPL;
 
     private Characters character;
