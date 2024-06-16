@@ -1,6 +1,7 @@
 package dev.tony.characters.RestApi;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class CharacterController {
         return new ResponseEntity<>(characters, HttpStatus.OK);
     }
     @PostMapping("/addCharacters")
-    public ResponseEntity<Characters> addCharacter(@RequestBody Characters character) {
+    public ResponseEntity<Characters> addCharacter(@RequestBody Characters character) throws NotFoundException {
         Characters newCharacter = chsimpl.addCharacter(character);
         return new ResponseEntity<>(newCharacter, HttpStatus.CREATED);
     }
@@ -37,13 +38,13 @@ public class CharacterController {
     }
 
     @GetMapping("/findCharacters/{id}")
-    public ResponseEntity<Optional<Characters>> findCharacterById(@PathVariable String id) {
+    public ResponseEntity<Optional<Characters>> findCharacterById(@PathVariable String id) throws NotFoundException {
         Optional<Characters> character = chsimpl.findCharacterById(id);
         return new ResponseEntity<>(character, HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteCharacters/{id}")
-    public ResponseEntity<Void> deleteCharacterById(@PathVariable String id) {
+    public ResponseEntity<Void> deleteCharacterById(@PathVariable String id) throws NotFoundException {
         chsimpl.deleteCharacterById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
