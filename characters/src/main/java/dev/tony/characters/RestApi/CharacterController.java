@@ -16,8 +16,8 @@ public class CharacterController {
     @Autowired
     private CharactersServiceIMPL chsimpl;
 
-    // @Autowired
-    // private CharactersMapper mapper;
+    @Autowired
+    private CharactersMapper mapper;
     
     @GetMapping("/allCharacters")
     public ResponseEntity<List<Characters>> getAllCharacters() {

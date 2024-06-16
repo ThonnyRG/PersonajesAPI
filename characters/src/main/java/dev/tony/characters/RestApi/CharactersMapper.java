@@ -2,17 +2,19 @@ package dev.tony.characters.RestApi;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.Mapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-// @Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface CharactersMapper {
 
-    // Characters characterToCharacterDTO(Character character);
+    CharactersMapper INSTANCE = Mappers.getMapper(CharactersMapper.class);
 
-    // @Mapping(target = "id", ignore = true)
-    // Character toEntity(Characters characterDTO);
+    Characters characterToCharacterDTO(Character character);
 
-    // List<Characters> toDTOList(List<Character> character);
-    // List<Character> toEntityList(List<Characters> characters);
+    Character characterDTOToCharacter(Characters characterDTO);
+
+    List<Characters> charactersToCharacterDTOs(List<Character> characters);
+
+    List<Character> characterDTOsToCharacters(List<Characters> characterDTOs);
 }
-
