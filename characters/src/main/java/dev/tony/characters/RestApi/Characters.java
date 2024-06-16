@@ -26,7 +26,7 @@ public class Characters {
     private String alias;
 
     @NotNull(message = "Age is required")
-    private String age;
+    private Integer age; 
 
     @NotEmpty(message = "Sex is required")
     private String sex;

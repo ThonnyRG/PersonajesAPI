@@ -3,58 +3,54 @@ package dev.tony.characters.RestApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/characters")
 public class CharacterController {
+
     @Autowired
     private CharactersServiceIMPL chsimpl;
 
+    // @Autowired
+    // private CharactersMapper mapper;
+    
     @GetMapping("/allCharacters")
-    public ResponseEntity<Flux<Characters>> allCharacters(){
-        Flux<Characters> flux = this.chsimpl.allChatacters();
-        return new ResponseEntity<>(flux, HttpStatus.OK);
+    public ResponseEntity<List<Characters>> getAllCharacters() {
+        List<Characters> characters = chsimpl.getAllCharacters();
+        return new ResponseEntity<>(characters, HttpStatus.OK);
     }
-
     @PostMapping("/addCharacters")
-    public ResponseEntity<Mono<Characters>> addCharacters(@Valid @RequestBody Characters characters){
-        Mono<Characters> charMono= this.chsimpl.addChatacters(characters);
-        return new ResponseEntity<>(charMono, HttpStatus.CREATED);
+    public ResponseEntity<Characters> addCharacter(@RequestBody Characters character) {
+        Characters newCharacter = chsimpl.addCharacter(character);
+        return new ResponseEntity<>(newCharacter, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateCharacters")
-    public ResponseEntity<Mono<Characters>> updateCharacters(@Valid @RequestBody Characters characters){
-        Mono<Characters> charMono= this.chsimpl.updateChatacters(characters);
-        return new ResponseEntity<>(charMono, HttpStatus.OK);
+    public ResponseEntity<Characters> updateCharacter(@RequestBody Characters character) {
+        Characters updatedCharacter = chsimpl.updateCharacter(character);
+        return new ResponseEntity<>(updatedCharacter, HttpStatus.OK);
     }
-    
+
     @GetMapping("/findCharacters/{id}")
-    public ResponseEntity<Mono<Characters>> findCharacters(@PathVariable String id){
-        Mono<Characters> charMono= this.chsimpl.findChatacters(id);
-        return new ResponseEntity<>(charMono, HttpStatus.OK);
+    public ResponseEntity<Optional<Characters>> findCharacterById(@PathVariable String id) {
+        Optional<Characters> character = chsimpl.findCharacterById(id);
+        return new ResponseEntity<>(character, HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteCharacters/{id}")
-    public ResponseEntity<Mono<Void>> deleteCharacters(@PathVariable String id){
-        Mono<Void> charMono= this.chsimpl.deleteChatacters(id);
-        return new ResponseEntity<>(charMono, HttpStatus.NO_CONTENT);
+    public ResponseEntity<Void> deleteCharacterById(@PathVariable String id) {
+        chsimpl.deleteCharacterById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/deleteAll")
-    public ResponseEntity<Mono<Void>> deleteCharacters(){
-        Mono<Void> charMono= this.chsimpl.deleteAllChatacters();
-        return new ResponseEntity<>(charMono, HttpStatus.NO_CONTENT);
+    public ResponseEntity<Void> deleteAllCharacters() {
+        chsimpl.deleteAllCharacters();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

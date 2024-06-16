@@ -3,36 +3,36 @@ package dev.tony.characters.RestApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CharactersServiceIMPL {
 
     @Autowired
-    private CharactersRepository repository;
+    private CharactersRepository charactersRepository;
 
-    public Flux<Characters> allChatacters(){
-        return this.repository.findAll();
+    public List<Characters> getAllCharacters() {
+        return charactersRepository.findAll();
     }
 
-    public Mono<Characters> addChatacters(Characters characters){
-        return this.repository.save(characters);
+    public Characters addCharacter(Characters character) {
+        return charactersRepository.save(character);
     }
 
-    public Mono<Characters> updateChatacters(Characters characters){
-        return this.repository.save(characters);
-
-    }    public Mono<Characters> findChatacters(String id){
-        return this.repository.findById(id);
-
-
-    }    public Mono<Void> deleteChatacters(String id){
-        return this.repository.deleteById(id);
-
-    }    public Mono<Void> deleteAllChatacters(){
-        return this.repository.deleteAll();
+    public Characters updateCharacter(Characters character) {
+        return charactersRepository.save(character);
     }
 
+    public Optional<Characters> findCharacterById(String id) {
+        return charactersRepository.findById(id);
+    }
 
+    public void deleteCharacterById(String id) {
+        charactersRepository.deleteById(id);
+    }
+
+    public void deleteAllCharacters() {
+        charactersRepository.deleteAll();
+    }
 }
