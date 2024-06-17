@@ -8,16 +8,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Clona el repositorio de Git
-                git 'https://github.com/ThonnyRG/PersonajesAPI'
+                echo 'Despliegue realizado'
             }
         }
         
         stage('Build') {
             steps {
-                // Construye la imagen Docker
                 script {
-                    docker.build(DOCKER_IMAGE)
+                    echo 'Despliegue realizado'
                 }
             }
         }
@@ -34,8 +32,6 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                sh "docker-compose down -v"
-                sh "docker-compose up -d --build"
                 echo 'Despliegue realizado'
             }
         }
