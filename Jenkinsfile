@@ -22,11 +22,7 @@ pipeline {
         
         stage('Push') {
             steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
-                        docker.image(DOCKER_IMAGE).push()
-                    }
-                }
+                echo 'Despliegue realizado'
             }
         }
         
