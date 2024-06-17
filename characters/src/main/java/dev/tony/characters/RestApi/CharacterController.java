@@ -1,14 +1,13 @@
 package dev.tony.characters.RestApi;
 
+import dev.tony.characters.exceptions.CharacterNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/characters")
@@ -19,14 +18,15 @@ public class CharacterController {
 
     @Autowired
     private CharactersMapper mapper;
-    
+
     @GetMapping("/allCharacters")
     public ResponseEntity<List<Characters>> getAllCharacters() {
         List<Characters> characters = chsimpl.getAllCharacters();
         return new ResponseEntity<>(characters, HttpStatus.OK);
     }
+
     @PostMapping("/addCharacters")
-    public ResponseEntity<Characters> addCharacter(@RequestBody Characters character) throws NotFoundException {
+    public ResponseEntity<Characters> addCharacter(@RequestBody Characters character) {
         Characters newCharacter = chsimpl.addCharacter(character);
         return new ResponseEntity<>(newCharacter, HttpStatus.CREATED);
     }
@@ -38,13 +38,13 @@ public class CharacterController {
     }
 
     @GetMapping("/findCharacters/{id}")
-    public ResponseEntity<Optional<Characters>> findCharacterById(@PathVariable String id) throws NotFoundException {
+    public ResponseEntity<Optional<Characters>> findCharacterById(@PathVariable String id) {
         Optional<Characters> character = chsimpl.findCharacterById(id);
         return new ResponseEntity<>(character, HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteCharacters/{id}")
-    public ResponseEntity<Void> deleteCharacterById(@PathVariable String id) throws NotFoundException {
+    public ResponseEntity<Void> deleteCharacterById(@PathVariable String id) {
         chsimpl.deleteCharacterById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -53,5 +53,10 @@ public class CharacterController {
     public ResponseEntity<Void> deleteAllCharacters() {
         chsimpl.deleteAllCharacters();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @ExceptionHandler(CharacterNotFoundException.class)
+    public ResponseEntity<String> handleCharacterNotFoundException(CharacterNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

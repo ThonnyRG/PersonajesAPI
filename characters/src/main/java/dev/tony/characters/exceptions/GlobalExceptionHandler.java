@@ -1,4 +1,4 @@
-package dev.tony.characters.RestApi;
+package dev.tony.characters.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;

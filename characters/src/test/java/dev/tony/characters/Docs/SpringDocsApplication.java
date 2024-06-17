@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.tony.characters.CharactersApplication;
 import dev.tony.characters.RestApi.Characters;
 import dev.tony.characters.RestApi.CharactersServiceIMPL;
 
@@ -29,7 +30,8 @@ public class SpringDocsApplication {
     public List<Characters> getAllCharacters() {
         return charactersServiceIMPL.getAllCharacters();
     }
-        public static void main(String[] args) {
-        SpringApplication.run(SpringDocsApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(CharactersApplication.class, args);
+	}
+
 }

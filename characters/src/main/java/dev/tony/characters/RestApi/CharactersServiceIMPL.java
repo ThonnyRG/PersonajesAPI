@@ -1,11 +1,9 @@
 package dev.tony.characters.RestApi;
 
+import dev.tony.characters.exceptions.CharacterNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
-
 import io.micrometer.common.util.StringUtils;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +17,9 @@ public class CharactersServiceIMPL {
         return charactersRepository.findAll();
     }
 
-    public Characters addCharacter(Characters character) throws NotFoundException{
+    public Characters addCharacter(Characters character) {
         if (character == null || StringUtils.isBlank(character.getAlias())) {
-            throw new NotFoundException();
+            throw new CharacterNotFoundException("Character alias is required");
         }        
         return charactersRepository.save(character);
     }
@@ -30,20 +28,20 @@ public class CharactersServiceIMPL {
         return charactersRepository.save(character);
     }
 
-    public Optional<Characters> findCharacterById(String id) throws NotFoundException {
+    public Optional<Characters> findCharacterById(String id) {
         if (StringUtils.isBlank(id)) {
-            throw new NotFoundException();
+            throw new CharacterNotFoundException("Character ID is required");
         }
         Optional<Characters> character = charactersRepository.findById(id);
         if (!character.isPresent()) {
-            throw new NotFoundException();
+            throw new CharacterNotFoundException("Character not found with ID: " + id);
         }
-        return charactersRepository.findById(id);
+        return character;
     }
 
-    public void deleteCharacterById(String id) throws NotFoundException {
+    public void deleteCharacterById(String id) {
         if (StringUtils.isBlank(id)) {
-            throw new NotFoundException();
+            throw new CharacterNotFoundException("Character ID is required");
         }
         charactersRepository.deleteById(id);
     }
