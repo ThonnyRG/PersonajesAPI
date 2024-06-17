@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clona el repositorio de Git
-                git 'https://github.com/usuario/repo.git'
+                git 'https://github.com/ThonnyRG/PersonajesAPI/tree/jenkins'
             }
         }
         
