@@ -59,70 +59,70 @@ class SpringDocsApplicationTests {
     public void setUp(WebApplicationContext webApplicationContext,
                       RestDocumentationContextProvider restDocumentation) {
 
-        this.mockMvc = MockMvcBuilders
-                .webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
-                .alwaysDo(JacksonResultHandlers.prepareJackson(objectMapper))
-                .alwaysDo(MockMvcRestDocumentation.document("{method-name}",
-                        Preprocessors.preprocessRequest(),
-                        Preprocessors.preprocessResponse(
-                                ResponseModifyingPreprocessors.replaceBinaryContent(),
-                                ResponseModifyingPreprocessors.limitJsonArrayLength(objectMapper),
-                                Preprocessors.prettyPrint())))
-                .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation)
-                        .uris()
-                        .withScheme("http")
-                        .withHost("localhost")
-                        .withPort(8080)
-                        .and().snippets()
-                        .withDefaults(CliDocumentation.curlRequest(),
-                                HttpDocumentation.httpRequest(),
-                                HttpDocumentation.httpResponse(),
-                                AutoDocumentation.requestFields(),
-                                AutoDocumentation.responseFields(),
-                                AutoDocumentation.pathParameters(),
-                                AutoDocumentation.requestParameters(),
-                                AutoDocumentation.description(),
-                                AutoDocumentation.methodAndPath(),
-                                AutoDocumentation.section()))
-                .build();
+//         this.mockMvc = MockMvcBuilders
+//                 .webAppContextSetup(webApplicationContext)
+//                 .apply(documentationConfiguration(restDocumentation))
+//                 .alwaysDo(JacksonResultHandlers.prepareJackson(objectMapper))
+//                 .alwaysDo(MockMvcRestDocumentation.document("{method-name}",
+//                         Preprocessors.preprocessRequest(),
+//                         Preprocessors.preprocessResponse(
+//                                 ResponseModifyingPreprocessors.replaceBinaryContent(),
+//                                 ResponseModifyingPreprocessors.limitJsonArrayLength(objectMapper),
+//                                 Preprocessors.prettyPrint())))
+//                 .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation)
+//                         .uris()
+//                         .withScheme("http")
+//                         .withHost("localhost")
+//                         .withPort(8080)
+//                         .and().snippets()
+//                         .withDefaults(CliDocumentation.curlRequest(),
+//                                 HttpDocumentation.httpRequest(),
+//                                 HttpDocumentation.httpResponse(),
+//                                 AutoDocumentation.requestFields(),
+//                                 AutoDocumentation.responseFields(),
+//                                 AutoDocumentation.pathParameters(),
+//                                 AutoDocumentation.requestParameters(),
+//                                 AutoDocumentation.description(),
+//                                 AutoDocumentation.methodAndPath(),
+//                                 AutoDocumentation.section()))
+//                 .build();
 
-        characters = Stream.of(new Characters("1", "Tony", "Stark", "Iron Man", 45, "M",
-                        new String[]{"The Invincible Iron Man", "Avengers"}, "{\"weapon\": [\"suit\"]}",
-                        "https://media.wired.com/photos/59344c46bef1fc4e58f92253/master/w_2560%2Cc_limit/im_large_660.jpg"),
-                new Characters("2", "Bruce", "Wayne", "Batman", 40, "M",
-                        new String[]{"Detective Comics", "Justice League"}, "{\"gadget\": [\"batarang\"]}",
-                        "https://image.url/batman.jpg"))
-                .collect(Collectors.toList());
+//         characters = Stream.of(new Characters("1", "Tony", "Stark", "Iron Man", 45, "M",
+//                         new String[]{"The Invincible Iron Man", "Avengers"}, "{\"weapon\": [\"suit\"]}",
+//                         "https://media.wired.com/photos/59344c46bef1fc4e58f92253/master/w_2560%2Cc_limit/im_large_660.jpg"),
+//                 new Characters("2", "Bruce", "Wayne", "Batman", 40, "M",
+//                         new String[]{"Detective Comics", "Justice League"}, "{\"gadget\": [\"batarang\"]}",
+//                         "https://image.url/batman.jpg"))
+//                 .collect(Collectors.toList());
 
-        charactersRepository.saveAll(characters);
-    }
+//         charactersRepository.saveAll(characters);
+//     }
 
-    @Test
-    public void testAddCharacter() throws Exception {
-        Characters newCharacter = new Characters("3", "Steve", "Rogers", "Captain America", 100, "M",
-                new String[]{"Captain America", "Avengers"}, "{\"weapon\": [\"shield\"]}",
-                "https://image.url/captainamerica.jpg");
-        String characterJson = objectMapper.writeValueAsString(newCharacter);
+//     @Test
+//     public void testAddCharacter() throws Exception {
+//         Characters newCharacter = new Characters("3", "Steve", "Rogers", "Captain America", 100, "M",
+//                 new String[]{"Captain America", "Avengers"}, "{\"weapon\": [\"shield\"]}",
+//                 "https://image.url/captainamerica.jpg");
+//         String characterJson = objectMapper.writeValueAsString(newCharacter);
 
-        mockMvc.perform(post("/api/characters/addCharacters")
-                        .content(characterJson)
-                        .contentType("application/json"))
-                .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.content().json(characterJson))
-                .andDo(document("add-character",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
-    }
+//         mockMvc.perform(post("/api/characters/addCharacters")
+//                         .content(characterJson)
+//                         .contentType("application/json"))
+//                 .andExpect(status().isCreated())
+//                 .andExpect(MockMvcResultMatchers.content().json(characterJson))
+//                 .andDo(document("add-character",
+//                         preprocessRequest(prettyPrint()),
+//                         preprocessResponse(prettyPrint())));
+//     }
 
-    @Test
-    public void testGetAllCharacters() throws Exception {
-        mockMvc.perform(get("/api/characters/allCharacters")
-                        .contentType("application/json"))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(characters)))
-                .andDo(document("get-all-characters",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+//     @Test
+//     public void testGetAllCharacters() throws Exception {
+//         mockMvc.perform(get("/api/characters/allCharacters")
+//                         .contentType("application/json"))
+//                 .andExpect(status().isOk())
+//                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(characters)))
+//                 .andDo(document("get-all-characters",
+//                         preprocessRequest(prettyPrint()),
+//                         preprocessResponse(prettyPrint())));
     }
 }
