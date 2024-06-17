@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clona el repositorio de Git
-                git 'https://github.com/ThonnyRG/PersonajesAPI/tree/jenkins'
+                git 'https://github.com/ThonnyRG/PersonajesAPI'
             }
         }
         
@@ -34,7 +34,8 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                // Agrega tus pasos de despliegue aquí
+                sh "docker-compose down -v"
+                sh "docker-compose up -d --build"
                 echo 'Despliegue realizado'
             }
         }
